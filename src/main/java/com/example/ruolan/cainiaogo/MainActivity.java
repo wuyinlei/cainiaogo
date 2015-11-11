@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FragmentTabHost mTabHost;      //这个使用的是已经写好的一个FragmentTabHost
 
+    //用list数组来存贮tab
     private List<Tab> mTabs = new ArrayList<>(5);
     private LayoutInflater mInflater;
     @Override
@@ -35,13 +37,16 @@ public class MainActivity extends AppCompatActivity {
         initTab();
     }
 
+    /**
+     * 初始化底部tab
+     */
     private void initTab() {
         //创建五个底部显示的tab
-        Tab tab_home = new Tab(R.string.home,R.mipmap.icon_home,HomeFragment.class);
-        Tab tab_hot = new Tab(R.string.hot,R.mipmap.icon_hot,HotFragment.class);
-        Tab tab_category = new Tab(R.string.catagory,R.mipmap.icon_discover,CategoryFragment.class);
-        Tab tab_cart = new Tab(R.string.cart,R.mipmap.icon_cart,CartFragment.class);
-        Tab tab_mine = new Tab(R.string.mine,R.mipmap.icon_user,MineFragment.class);
+        Tab tab_home = new Tab(R.string.home,R.drawable.selector_icon_home,HomeFragment.class);
+        Tab tab_hot = new Tab(R.string.hot,R.drawable.selector_icon_hot,HotFragment.class);
+        Tab tab_category = new Tab(R.string.catagory,R.drawable.selector_icon_category,CategoryFragment.class);
+        Tab tab_cart = new Tab(R.string.cart,R.drawable.selector_icon_cart,CartFragment.class);
+        Tab tab_mine = new Tab(R.string.mine,R.drawable.selector_icon_mine,MineFragment.class);
 
         //把创建的tab添加到list数组中
         mTabs.add(tab_home);
@@ -61,8 +66,18 @@ public class MainActivity extends AppCompatActivity {
             tabSpec.setIndicator(buildIndicator(tab));
             mTabHost.addTab(tabSpec,tab.getFragment(),null);
         }
+
+        //去掉底部的分割线
+        mTabHost.getTabWidget().setShowDividers(LinearLayout.SHOW_DIVIDER_NONE);
+        mTabHost.setCurrentTab(0);
+
     }
 
+    /**
+     * 创建view布局
+     * @param tab
+     * @return
+     */
     private View buildIndicator(Tab tab){
         View view = mInflater.inflate(R.layout.tab_indicator, null);
         ImageView img = (ImageView) view.findViewById(R.id.icon_tab);
