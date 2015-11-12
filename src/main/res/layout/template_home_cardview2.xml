@@ -15,15 +15,7 @@
         android:weightSum="2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <!--<TextView
-            android:id="@+id/text_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="喜欢的商品"
-            android:textSize="20dp"
-            android:textColor="@color/black"
-            android:paddingTop="10dp"
-            />-->
+
         <TextView
             android:id="@+id/title_text"
             android:textSize="20dp"
@@ -48,7 +40,7 @@
                 >
                 <ImageView
                     android:id="@+id/imgview_small_top"
-                    android:layout_width="wrap_content"
+                    android:layout_width="180dp"
                     android:layout_height="wrap_content"
                     android:src="@drawable/img_0_small1"
                     />
@@ -59,7 +51,7 @@
                     ></View>
                 <ImageView
                     android:id="@+id/imgview_small_bottom"
-                    android:layout_width="wrap_content"
+                    android:layout_width="180dp"
                     android:layout_height="wrap_content"
                     android:src="@drawable/img_0_small2"
                     />

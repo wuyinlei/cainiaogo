@@ -53,14 +53,14 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
         return new ViewHolder(mInflater.inflate(R.layout.template_home_cardview, parent, false));
     }
 
-
     @Override
-    public long getItemId(int position) {
-        if (position % 2 == 0) {
+    public int getItemViewType(int position) {
+        if (position % 2 == 0)
             return VIEW_TYPE_R;
-        } else
+        else
             return VIEW_TYPE_L;
     }
+
 
     /**
      * 进行数据的绑定
@@ -68,7 +68,7 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         HomeCategory category = mDatas.get(position);
-       // holder.textTitle.setText(category.getName());
+        // holder.textTitle.setText(category.getName());
         Log.d("hodsa", category.getName().toString());
         holder.imageViewBig.setImageResource(category.getImgBig());
         holder.imageViewSmallTop.setImageResource(category.getImgSmallTop());
@@ -80,7 +80,7 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
         return mDatas.size();
     }
 
-    static  class ViewHolder extends RecyclerView.ViewHolder{
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
 
         TextView textTitle;
@@ -93,7 +93,7 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
             imageViewBig = (ImageView) itemView.findViewById(R.id.imgview_big);
             imageViewSmallTop = (ImageView) itemView.findViewById(R.id.imgview_small_top);
             imageViewSmallBottom = (ImageView) itemView.findViewById(R.id.imgview_small_bottom);
-           // textTitle = (TextView) itemView.findViewById(R.id.title_text);
+            // textTitle = (TextView) itemView.findViewById(R.id.title_text);
             textTitle = (TextView) itemView.findViewById(R.id.title_text);
 
         }

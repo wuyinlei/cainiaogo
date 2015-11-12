@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.Indicators.PagerIndicator;
@@ -18,7 +17,12 @@ import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.example.ruolan.cainiaogo.R;
 import com.example.ruolan.cainiaogo.adapter.HomeCategoryAdapter;
+import com.example.ruolan.cainiaogo.bean.Banner;
 import com.example.ruolan.cainiaogo.bean.HomeCategory;
+import com.example.ruolan.cainiaogo.http.OkHttpHelper;
+import com.example.ruolan.cainiaogo.http.SpotsCallback;
+import com.google.gson.Gson;
+import com.squareup.okhttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,12 +35,21 @@ public class HomeFragment extends Fragment {
     private HomeCategoryAdapter mAdapter;
     private HomeCategory category;
 
+    //创建一个gson实例
+    private Gson mGson = new Gson();
+
+    //用一个list数组来存放gson数据对象
+    private List<Banner> mBanners;
+
     private static final String TAG = "HomeFragment";
 
     //创建控件
     private SliderLayout mSliderLayout;
     private PagerIndicator mIndicator;
     private RecyclerView mRecyclerView;
+
+    private OkHttpHelper httpHelper = OkHttpHelper.getInstance();
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,14 +60,72 @@ public class HomeFragment extends Fragment {
         mSliderLayout = (SliderLayout) view.findViewById(R.id.slider);
 
         mIndicator = (PagerIndicator) view.findViewById(R.id.custom_indicator);
-
+        requestImages();
         //CardView效果初始化
         initRecycleView(view);
 
-        //图片轮转效果初始化
-        initSlider();
-
         return view;
+    }
+
+    private void requestImages() {
+        String url ="http://112.124.22.238:8081/course_api/banner/query?type=1";
+    /*    //url
+        String url ="http://112.124.22.238:8081/course_api/banner/query";
+
+
+        OkHttpClient client = new OkHttpClient();
+
+        RequestBody body = new FormEncodingBuilder()
+                .add("type","1")
+
+                .build();
+
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+
+
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+
+
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+
+                if (response.isSuccessful()) {
+
+                    String json = response.body().string();
+
+                    Type type = new TypeToken<List<Banner>>() {
+                    }.getType();
+                    mBanners = mGson.fromJson(json, type);
+                    initSlider();
+                }
+            }
+        });
+
+*/
+
+        httpHelper.get(url, new SpotsCallback<List<Banner>>(getContext()) {
+
+
+            @Override
+            public void onSuccess(Response response, List<Banner> banners) {
+                mBanners = banners;
+                initSlider();
+            }
+
+            @Override
+            public void onError(Response response, int code, Exception e) {
+
+            }
+        });
     }
 
     //主页中部的图片加载的一个滑动，商品的推荐
@@ -65,7 +136,7 @@ public class HomeFragment extends Fragment {
         List<HomeCategory> datas = new ArrayList<>(15);
 
         //添加几个示例图，这个是固定的，还没有实现从网络中加载数据
-        HomeCategory category = new HomeCategory("热门活动",R.drawable.img_big_1,R.drawable.img_1_small1,R.drawable.img_1_small2);
+        HomeCategory category = new HomeCategory("热门活动", R.drawable.img_big_1, R.drawable.img_1_small1, R.drawable.img_1_small2);
         datas.add(category);
 
         category = new HomeCategory("有利可图", R.drawable.img_big_4, R.drawable.img_4_small1, R.drawable.img_4_small2);
@@ -88,45 +159,25 @@ public class HomeFragment extends Fragment {
 
     }
 
+    /**
+     * 用来解析gson数据，初始化轮番广告
+     */
     public void initSlider() {
-        //创建slider
-        TextSliderView textSliderView = new TextSliderView(this.getActivity());
-        textSliderView.image("http://m.360buyimg.com/mobilecms/s300x98_jfs/t2416/102/20949846/13425/a3027ebc/55e6d1b9Ne6fd6d8f.jpg");
-        textSliderView.description("新品推荐");
-        textSliderView.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
-            @Override
-            public void onSliderClick(BaseSliderView slider) {
-                Toast.makeText(getActivity(), "新品推荐", Toast.LENGTH_SHORT).show();
-            }
-        });
 
-        TextSliderView textSliderView2 = new TextSliderView(this.getActivity());
-        textSliderView2.image("http://m.360buyimg.com/mobilecms/s300x98_jfs/t1507/64/486775407/55927/d72d78cb/558d2fbaNb3c2f349.jpg");
-        textSliderView2.description("时尚男装");
-        textSliderView2.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
-            @Override
-            public void onSliderClick(BaseSliderView slider) {
-                Toast.makeText(getActivity(), "时尚男装", Toast.LENGTH_SHORT).show();
+        if(mBanners != null){
+            for (Banner banner:mBanners) {
+                //创建sliderView
+                TextSliderView textSliderView = new TextSliderView(this.getActivity());
+                textSliderView.image(banner.getImgUrl());
+                textSliderView.description(banner.getName());
+                textSliderView.setScaleType(BaseSliderView.ScaleType.Fit);
+                //添加进sliderShow()
+                mSliderLayout.addSlider(textSliderView);
             }
-        });
-
-        TextSliderView textSliderView3 = new TextSliderView(this.getActivity());
-        textSliderView3.image("http://m.360buyimg.com/mobilecms/s300x98_jfs/t1363/77/1381395719/60705/ce91ad5c/55dd271aN49efd216.jpg");
-        textSliderView3.description("家电秒杀");
-        textSliderView3.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
-            @Override
-            public void onSliderClick(BaseSliderView slider) {
-                Toast.makeText(getActivity(), "家电秒杀", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        //添加进sliderShow()
-        mSliderLayout.addSlider(textSliderView);
-        mSliderLayout.addSlider(textSliderView2);
-        mSliderLayout.addSlider(textSliderView3);
+        }
 
         //设置动画效果
-        // mSliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);   //系统默认的
+         mSliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);   //系统默认的
         //接下来使用自定义的
         mSliderLayout.setCustomIndicator(mIndicator);
         mSliderLayout.setCustomAnimation(new DescriptionAnimation());
@@ -152,6 +203,12 @@ public class HomeFragment extends Fragment {
             }
         });
 
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        mSliderLayout.stopAutoCycle();
     }
 }

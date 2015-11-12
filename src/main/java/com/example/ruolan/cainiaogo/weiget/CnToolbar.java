@@ -20,6 +20,9 @@ import com.example.ruolan.cainiaogo.R;
  */
 public class CnToolbar extends Toolbar {
 
+
+    //它的作用类似于findViewById()。不同点是LayoutInflater是用来找res/layout/下的
+    // xml布局文件，并且实例化
     private LayoutInflater mInflater;
 
     private View mView;
@@ -29,7 +32,7 @@ public class CnToolbar extends Toolbar {
 
 
     public CnToolbar(Context context) {
-        this(context, null);
+        this(context,null);
     }
 
     public CnToolbar(Context context, AttributeSet attrs) {
@@ -40,11 +43,14 @@ public class CnToolbar extends Toolbar {
         super(context, attrs, defStyleAttr);
 
 
+
         initView();
-        setContentInsetsRelative(10, 10);
+        setContentInsetsRelative(10,10);
 
 
-        if (attrs != null) {
+
+
+        if(attrs !=null) {
             final TintTypedArray a = TintTypedArray.obtainStyledAttributes(getContext(), attrs,
                     R.styleable.CnToolbar, defStyleAttr, 0);
 
@@ -55,11 +61,17 @@ public class CnToolbar extends Toolbar {
                 setRightButtonIcon(rightIcon);
             }
 
-            boolean isShowSearchView = a.getBoolean(R.styleable.CnToolbar_isShowSearchView, false);
-            if (isShowSearchView) {
+
+            boolean isShowSearchView = a.getBoolean(R.styleable.CnToolbar_isShowSearchView,false);
+
+            if(isShowSearchView){
+
                 showSearchView();
                 hideTitleView();
+
             }
+
+
             a.recycle();
         }
 
@@ -67,25 +79,31 @@ public class CnToolbar extends Toolbar {
 
     private void initView() {
 
-        if (mView == null) {
+
+        if(mView == null) {
+
             mInflater = LayoutInflater.from(getContext());
             mView = mInflater.inflate(R.layout.toolbar, null);
+
 
             mTextTitle = (TextView) mView.findViewById(R.id.toolbar_title);
             mSearchView = (EditText) mView.findViewById(R.id.toolbar_searchview);
             mRightImageButton = (ImageButton) mView.findViewById(R.id.toolbar_rightButton);
 
             LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL);
+
             addView(mView, lp);
         }
+
 
 
     }
 
 
-    public void setRightButtonIcon(Drawable icon) {
+    public void  setRightButtonIcon(Drawable icon){
 
-        if (mRightImageButton != null) {
+        if(mRightImageButton !=null){
+
             mRightImageButton.setImageDrawable(icon);
             mRightImageButton.setVisibility(VISIBLE);
         }
@@ -93,10 +111,12 @@ public class CnToolbar extends Toolbar {
     }
 
 
-    public void setRightButtonOnClickListener(OnClickListener li) {
+    public  void setRightButtonOnClickListener(OnClickListener li){
 
         mRightImageButton.setOnClickListener(li);
     }
+
+
 
 
     @Override
@@ -109,30 +129,34 @@ public class CnToolbar extends Toolbar {
     public void setTitle(CharSequence title) {
 
         initView();
-        if (mTextTitle != null) {
+        if(mTextTitle !=null) {
             mTextTitle.setText(title);
             showTitleView();
         }
 
 
+
+
+
     }
 
 
-    public void showSearchView() {
 
-        if (mSearchView != null)
+    public  void showSearchView(){
+
+        if(mSearchView !=null)
             mSearchView.setVisibility(VISIBLE);
 
     }
 
 
-    public void hideSearchView() {
-        if (mSearchView != null)
+    public void hideSearchView(){
+        if(mSearchView !=null)
             mSearchView.setVisibility(GONE);
     }
 
-    public void showTitleView() {
-        if (mTextTitle != null)
+    public void showTitleView(){
+        if(mTextTitle !=null)
             mTextTitle.setVisibility(VISIBLE);
     }
 
@@ -142,5 +166,7 @@ public class CnToolbar extends Toolbar {
             mTextTitle.setVisibility(GONE);
 
     }
+
+
 
 }
