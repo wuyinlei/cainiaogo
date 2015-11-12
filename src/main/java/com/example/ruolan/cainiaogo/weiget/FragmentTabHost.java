@@ -4,6 +4,9 @@ package com.example.ruolan.cainiaogo.weiget;
  * Created by ruolan on 2015/11/11.
  */
 
+/**
+ * 直接上网找的一个FragmentTabHost
+ */
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;

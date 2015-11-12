@@ -1,4 +1,4 @@
-package com.example.ruolan.cainiaogo;
+package com.example.ruolan.cainiaogo.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.example.ruolan.cainiaogo.R;
 import com.example.ruolan.cainiaogo.bean.Tab;
 import com.example.ruolan.cainiaogo.fragment.CartFragment;
 import com.example.ruolan.cainiaogo.fragment.CategoryFragment;

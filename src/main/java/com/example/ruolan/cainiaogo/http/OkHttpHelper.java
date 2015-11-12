@@ -21,61 +21,83 @@ import java.util.concurrent.TimeUnit;
  */
 public class OkHttpHelper {
 
-    public static final String TAG="OkHttpHelper";
 
-    private  static  OkHttpHelper mInstance;
+    public static final String TAG = "OkHttpHelper";
+
+    //这里使用单例模式，静态私有化
+    private static OkHttpHelper mInstance;
     private OkHttpClient mHttpClient;
     private Gson mGson;
 
     private Handler mHandler;
 
 
-
+    //初始化OkHttpHelper初值
     static {
         mInstance = new OkHttpHelper();
     }
 
-    private OkHttpHelper(){
+    private OkHttpHelper() {
 
+        //对mHttpClient的一些简单的设置
         mHttpClient = new OkHttpClient();
+        //连接主机超时
         mHttpClient.setConnectTimeout(10, TimeUnit.SECONDS);
-        mHttpClient.setReadTimeout(10,TimeUnit.SECONDS);
-        mHttpClient.setWriteTimeout(30,TimeUnit.SECONDS);
+        //从主机读取数据超时
+        mHttpClient.setReadTimeout(10, TimeUnit.SECONDS);
+        //写出数据超时
+        mHttpClient.setWriteTimeout(30, TimeUnit.SECONDS);
 
         mGson = new Gson();
 
         mHandler = new Handler(Looper.getMainLooper());
 
-    };
-
-    public static  OkHttpHelper getInstance(){
-        return  mInstance;
     }
 
 
+    /**
+     * 对外提供一个公开的静态的实例方法
+     * @return
+     */
+    public static OkHttpHelper getInstance() {
+        return mInstance;
+    }
 
 
-    public void get(String url,BaseCallback callback){
+    /**
+     * Get方式
+     * @param url
+     * @param callback
+     */
+    public void get(String url, BaseCallback callback) {
 
 
         Request request = buildGetRequest(url);
 
-        request(request,callback);
+        request(request, callback);
 
     }
 
 
-    public void post(String url,Map<String,String> param, BaseCallback callback){
+    /**
+     * Post方式
+     * @param url
+     * @param param
+     * @param callback
+     */
+    public void post(String url, Map<String, String> param, BaseCallback callback) {
 
-        Request request = buildPostRequest(url,param);
-        request(request,callback);
+        Request request = buildPostRequest(url, param);
+        request(request, callback);
     }
 
 
-
-
-
-    public  void request(final Request request,final  BaseCallback callback){
+    /**
+     * request请求，在这里实现了自定义的calllback方法
+     * @param request
+     * @param callback
+     */
+    public void request(final Request request, final BaseCallback callback) {
 
         callback.onBeforeRequest(request);
 
@@ -83,7 +105,7 @@ public class OkHttpHelper {
 
             @Override
             public void onFailure(Request request, IOException e) {
-                callback.onFailure(request,e);
+                callback.onFailure(request, e);
 
             }
 
@@ -93,28 +115,24 @@ public class OkHttpHelper {
                 //不管成功失败都调用
                 callback.onResponse(response);
 
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
 
                     String resultStr = response.body().string();
 
                     Log.d(TAG, "result=" + resultStr);
 
-                    if (callback.mType == String.class){
-                        callbackSuccess(callback,response,resultStr);
-                    }
-                    else {
+                    if (callback.mType == String.class) {
+                        callbackSuccess(callback, response, resultStr);
+                    } else {
                         try {
-
                             Object obj = mGson.fromJson(resultStr, callback.mType);
-                            callbackSuccess(callback,response,obj);
-                        }
-                        catch (com.google.gson.JsonParseException e){ // Json解析的错误
-                            callback.onError(response,response.code(),e);
+                            callbackSuccess(callback, response, obj);
+                        } catch (com.google.gson.JsonParseException e) { // Json解析的错误
+                            callback.onError(response, response.code(), e);
                         }
                     }
-                }
-                else {
-                    callbackError(callback,response,null);
+                } else {
+                    callbackError(callback, response, null);
                 }
 
             }
@@ -124,8 +142,17 @@ public class OkHttpHelper {
     }
 
 
-    private void callbackSuccess(final  BaseCallback callback , final Response response, final Object obj ){
+    /**
+     *
+     * @param callback
+     * @param response
+     * @param obj
+     */
+    private void callbackSuccess(final BaseCallback callback, final Response response, final Object obj) {
 
+        /**
+         * 用了handler异步方法，要不然就会报错的
+         */
         mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -135,39 +162,43 @@ public class OkHttpHelper {
     }
 
 
-    private void callbackError(final  BaseCallback callback , final Response response, final Exception e ){
+    /**
+     * 请求失败的时候调用
+     * @param callback
+     * @param response
+     * @param e
+     */
+    private void callbackError(final BaseCallback callback, final Response response, final Exception e) {
 
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                callback.onError(response,response.code(),e);
+                callback.onError(response, response.code(), e);
             }
         });
     }
 
 
+    private Request buildPostRequest(String url, Map<String, String> params) {
 
-    private  Request buildPostRequest(String url,Map<String,String> params){
-
-        return  buildRequest(url,HttpMethodType.POST,params);
+        return buildRequest(url, HttpMethodType.POST, params);
     }
 
-    private  Request buildGetRequest(String url){
+    private Request buildGetRequest(String url) {
 
-        return  buildRequest(url,HttpMethodType.GET,null);
+        return buildRequest(url, HttpMethodType.GET, null);
     }
 
-    private  Request buildRequest(String url,HttpMethodType methodType,Map<String,String> params){
+    private Request buildRequest(String url, HttpMethodType methodType, Map<String, String> params) {
 
 
         Request.Builder builder = new Request.Builder()
                 .url(url);
 
-        if (methodType == HttpMethodType.POST){
+        if (methodType == HttpMethodType.POST) {
             RequestBody body = builderFormData(params);
             builder.post(body);
-        }
-        else if(methodType == HttpMethodType.GET){
+        } else if (methodType == HttpMethodType.GET) {
             builder.get();
         }
 
@@ -176,27 +207,28 @@ public class OkHttpHelper {
     }
 
 
-
-    private RequestBody builderFormData(Map<String,String> params){
+    private RequestBody builderFormData(Map<String, String> params) {
 
 
         FormEncodingBuilder builder = new FormEncodingBuilder();
 
-        if(params !=null){
+        if (params != null) {
 
-            for (Map.Entry<String,String> entry :params.entrySet() ){
+            for (Map.Entry<String, String> entry : params.entrySet()) {
 
-                builder.add(entry.getKey(),entry.getValue());
+                builder.add(entry.getKey(), entry.getValue());
             }
         }
 
-        return  builder.build();
+        return builder.build();
 
     }
 
 
-
-    enum  HttpMethodType{
+    /**
+     * 枚举的两个类型，一个GET，一个POST
+     */
+    enum HttpMethodType {
 
         GET,
         POST,

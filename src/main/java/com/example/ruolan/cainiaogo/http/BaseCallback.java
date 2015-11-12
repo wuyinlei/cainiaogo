@@ -13,8 +13,11 @@ import java.lang.reflect.Type;
  */
 public abstract class BaseCallback<T> {
 
-    public   Type mType;
+    public Type mType;
 
+    /**
+     * 下面这几行是为了把T这个类型转换成Type这个类型所做的一些事情
+     */
     static Type getSuperclassTypeParameter(Class<?> subclass)
     {
         Type superclass = subclass.getGenericSuperclass();
@@ -26,17 +29,24 @@ public abstract class BaseCallback<T> {
         return $Gson$Types.canonicalize(parameterized.getActualTypeArguments()[0]);
     }
 
-
     public BaseCallback()
     {
         mType = getSuperclassTypeParameter(getClass());
     }
 
 
-
+    /**
+     * 在请求之前调用
+     * @param request
+     */
     public  abstract void onBeforeRequest(Request request);
 
 
+    /**
+     * 请求失败的时候调用
+     * @param request
+     * @param e
+     */
     public abstract  void onFailure(Request request, Exception e) ;
 
 

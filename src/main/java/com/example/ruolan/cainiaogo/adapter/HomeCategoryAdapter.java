@@ -1,7 +1,6 @@
 package com.example.ruolan.cainiaogo.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +68,6 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         HomeCategory category = mDatas.get(position);
         // holder.textTitle.setText(category.getName());
-        Log.d("hodsa", category.getName().toString());
         holder.imageViewBig.setImageResource(category.getImgBig());
         holder.imageViewSmallTop.setImageResource(category.getImgSmallTop());
         holder.imageViewSmallBottom.setImageResource(category.getImgSmallBottom());
