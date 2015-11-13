@@ -20,7 +20,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     public BaseViewHolder(View itemView,BaseAdapter.OnItemClickListener listener) {
         super(itemView);
 
-        views = new SparseArray<>();
+        views = new SparseArray<View>();
         this.mListener = listener;
         itemView.setOnClickListener(this);
     }

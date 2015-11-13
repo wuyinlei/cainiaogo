@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by ruolan on 2015/11/13.
  */
-public abstract class BaseAdapter<T,H extends BaseViewHolder> extends RecyclerView.Adapter<BaseViewHolder> {
+public abstract class BaseAdapter<T, H extends BaseViewHolder> extends RecyclerView.Adapter<BaseViewHolder> {
 
     protected List<T> datas;
 
@@ -23,24 +23,24 @@ public abstract class BaseAdapter<T,H extends BaseViewHolder> extends RecyclerVi
 
     protected int mLayoutResId;
 
-    protected OnItemClickListener mListener;
+    protected OnItemClickListener mListener = null;
 
-    protected BaseAdapter(Context context,  int layoutResId,List<T> datas){
+    public BaseAdapter(Context context, int layoutResId, List<T> datas) {
         this.mContext = context;
         this.datas = datas;
         this.mLayoutResId = layoutResId;
         mInflater = LayoutInflater.from(context);
     }
 
-    public interface OnItemClickListener{
+    public interface OnItemClickListener {
         void OnItemClick(View view, int position);
     }
 
-    public BaseAdapter(Context context,int layoutResId){
-        this(context,layoutResId,null);
+    public BaseAdapter(Context context, int layoutResId) {
+        this(context, layoutResId, null);
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener){
+    public void setOnItemClickListener(OnItemClickListener listener) {
         this.mListener = listener;
     }
 
@@ -51,7 +51,7 @@ public abstract class BaseAdapter<T,H extends BaseViewHolder> extends RecyclerVi
         Fresco.initialize(parent.getContext());
         View view = LayoutInflater.from(parent.getContext()).inflate(mLayoutResId, parent, false);
 
-        return new BaseViewHolder(view,mListener);
+        return new BaseViewHolder(view, mListener);
     }
 
     @Override
@@ -65,7 +65,7 @@ public abstract class BaseAdapter<T,H extends BaseViewHolder> extends RecyclerVi
 
     @Override
     public int getItemCount() {
-        if(datas==null || datas.size()<=0)
+        if (datas == null || datas.size() <= 0)
             return 0;
 
         return datas.size();
@@ -78,28 +78,30 @@ public abstract class BaseAdapter<T,H extends BaseViewHolder> extends RecyclerVi
     }
 
 
-    public void clear(){
+    public void clear() {
         int itemCount = datas.size();
         datas.clear();
-        this.notifyItemRangeRemoved(0,itemCount);
+        this.notifyItemRangeRemoved(0, itemCount);
     }
 
-    public List<T> getDatas(){
+    public List<T> getDatas() {
 
-        return  datas;
-    }
-    public void addData(List<T> datas){
-
-        addData(0,datas);
+        return datas;
     }
 
-    public void addData(int position,List<T> datas){
-        if(datas !=null && datas.size()>0) {
+    public void addData(List<T> datas) {
+
+        addData(0, datas);
+    }
+
+    public void addData(int position, List<T> datas) {
+        if (datas != null && datas.size() > 0) {
 
             this.datas.addAll(datas);
             this.notifyItemRangeChanged(position, datas.size());
         }
     }
+
     protected abstract void convert(H viewHoder, T item);
-   // public abstract void bindData(BaseViewHolder viewHolder,T t);
+    // public abstract void bindData(BaseViewHolder viewHolder,T t);
 }

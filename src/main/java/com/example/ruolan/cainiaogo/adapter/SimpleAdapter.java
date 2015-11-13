@@ -7,15 +7,15 @@ import java.util.List;
 /**
  * Created by ruolan on 2015/11/13.
  */
-public abstract class SimpleAdapter<T> extends BaseAdapter<T,BaseViewHolder>{
+public abstract class SimpleAdapter<T> extends BaseAdapter<T, BaseViewHolder> {
 
 
-    protected SimpleAdapter(Context context,int layoutResId){
-        super(context,layoutResId);
+    public SimpleAdapter(Context context, int layoutResId) {
+        super(context, layoutResId);
     }
 
-    protected SimpleAdapter(Context context,  int layoutResId,List<T> datas) {
-        super(context,layoutResId ,datas);
+    protected SimpleAdapter(Context context, int layoutResId, List<T> datas) {
+        super(context, layoutResId, datas);
     }
 
 }
