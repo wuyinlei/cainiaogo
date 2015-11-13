@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * 初始化底部tab
+     * 初始化底部tabhost
      */
     private void initTab() {
         //创建五个底部显示的tab
@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private View buildIndicator(Tab tab){
         View view = mInflater.inflate(R.layout.tab_indicator, null);
+        //初始化布局控件
         ImageView img = (ImageView) view.findViewById(R.id.icon_tab);
         TextView text = (TextView) view.findViewById(R.id.txt_indicator);
         img.setBackgroundResource(tab.getIcon());   //设置背景图片

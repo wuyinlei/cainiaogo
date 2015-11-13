@@ -102,6 +102,10 @@ public class HotWaresAdapter extends RecyclerView.Adapter<HotWaresAdapter.ViewHo
         }
     }
 
+    public List<Wares> getDatas() {
+        return mDatas;
+    }
+
     @Override
     public int getItemCount() {
         if (mDatas != null && mDatas.size() > 0){
@@ -114,9 +118,7 @@ public class HotWaresAdapter extends RecyclerView.Adapter<HotWaresAdapter.ViewHo
         return mDatas.get(position);
     }
 
-    public List<Wares> getDatas() {
-        return mDatas;
-    }
+
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -127,7 +129,6 @@ public class HotWaresAdapter extends RecyclerView.Adapter<HotWaresAdapter.ViewHo
 
          public ViewHolder(View itemView) {
              super(itemView);
-
              //绑定布局中的控件
              mDraweeView = (SimpleDraweeView) itemView.findViewById(R.id.drawee_view);
              textTitle = (TextView) itemView.findViewById(R.id.text_title);

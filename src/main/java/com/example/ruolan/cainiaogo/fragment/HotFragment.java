@@ -13,8 +13,9 @@ import android.widget.Toast;
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
 import com.example.ruolan.cainiaogo.R;
+import com.example.ruolan.cainiaogo.adapter.BaseAdapter;
 import com.example.ruolan.cainiaogo.adapter.DividerItemDecoration;
-import com.example.ruolan.cainiaogo.adapter.HotWaresAdapter;
+import com.example.ruolan.cainiaogo.adapter.HWAdapter;
 import com.example.ruolan.cainiaogo.bean.Page;
 import com.example.ruolan.cainiaogo.bean.Wares;
 import com.example.ruolan.cainiaogo.http.OkHttpHelper;
@@ -29,16 +30,20 @@ import java.util.List;
  */
 public class HotFragment extends Fragment {
 
+    //当前页数
     private int curPage = 1;
+
+    //每页最大的数量
     private int pageSize = 10;
 
+    //总的页数
     private int totalPage;
 
     //创建一个wares的list的数据数组
     private List<Wares> datas;
 
     //创建adapter
-    private HotWaresAdapter mAdapter;
+    private HWAdapter mAdapter;
 
     //一个listview相似
     private RecyclerView mRecyclerView;
@@ -52,13 +57,15 @@ public class HotFragment extends Fragment {
     private static final int STATE_REFRESH = 1;
     private static final int STATE_MORE = 2;
 
-    private int state = STATE_NORMAL;
+    private int STATE = STATE_NORMAL;
 
     //用到的http方法
     private OkHttpHelper mHttpHelper = OkHttpHelper.getInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        //加载自定义的布局
         View view = inflater.inflate(R.layout.fragment_hot, container, false);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
 
@@ -72,6 +79,7 @@ public class HotFragment extends Fragment {
     }
 
     private void initRefreshLayout() {
+
         mRefreshLayout.setLoadMore(true);  //调用此方法是加载更多
 
         //设置监听事件
@@ -87,8 +95,8 @@ public class HotFragment extends Fragment {
                 refreshData();
                 String y = datas.toString();
                 //判断下拉刷新前后是否是同一个数据，如果是同一个数据，提示不需要刷新了
-                if (x.equals(y)){
-                    Toast.makeText(getActivity(),"已经是最新的数据了，不能再加载了",Toast.LENGTH_SHORT).show();
+                if (x.equals(y)) {
+                    Toast.makeText(getActivity(), "已经是最新的数据了，不能再加载了", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -139,9 +147,29 @@ public class HotFragment extends Fragment {
      */
     public void showData() {
 
-        switch (state) {
-            case STATE_NORMAL:
-                mAdapter = new HotWaresAdapter(datas);
+        switch (STATE) {
+
+            case STATE_NORMAL:    //正常状态
+
+                mAdapter = new HWAdapter(getContext(),datas);
+                mAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
+                    @Override
+                    public void OnItemClick(View view, int position) {
+
+                    }
+                });
+                mRecyclerView.setAdapter(mAdapter);
+
+                //设置一个排版方式
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+                //设置动画
+                mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+                //设置
+                mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
+
+               /* mAdapter = new HotWaresAdapter(datas);
 
                 //把adapter加入到recycleview中
                 mRecyclerView.setAdapter(mAdapter);
@@ -154,10 +182,24 @@ public class HotFragment extends Fragment {
 
                 //设置
                 mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
+                */
+               /* mRecyclerView.setAdapter(new BaseAdapter<Wares,BaseViewHolder>(getContext(), datas, R.layout.template_hot_wares) {
+
+                    @Override
+                    public void bindData(BaseViewHolder viewHolder, Wares wares) {
+                        SimpleDraweeView draweeView = (SimpleDraweeView) viewHolder.getView(R.id.drawee_view);
+                        draweeView.setImageURI(Uri.parse(wares.getImgUrl()));
+
+                        viewHolder.getTextView(R.id.text_title).setText(wares.getName());
+                        viewHolder.getTextView(R.id.text_price).setText(wares.getPrice().shortValue());
+                    }
+                });*/
+
                 break;
-            case STATE_REFRESH:
+
+            case STATE_REFRESH:   //刷新状态
                 //刷新的时候首先要清楚adapter中的数据，要不然就会加载好多重复的数据
-                mAdapter.cleanData();
+                mAdapter.clear();
                 //然后调用添加数据的方法来添加数据
                 mAdapter.addData(datas);
                 //调用这个方法，定位到第几个
@@ -165,7 +207,9 @@ public class HotFragment extends Fragment {
                 //完成刷新
                 mRefreshLayout.finishRefresh();
                 break;
-            case STATE_MORE:
+
+
+            case STATE_MORE:    //添加状态
                 mAdapter.addData(mAdapter.getDatas().size(), datas);
                 mRecyclerView.scrollToPosition(mAdapter.getDatas().size());
                 mRefreshLayout.finishRefreshLoadMore();
@@ -181,17 +225,20 @@ public class HotFragment extends Fragment {
     private void refreshData() {
         //刷新数据的时候，始终定位到第一页
         curPage = 1;
+
         //把状态改成刷新的状态
-        state = STATE_REFRESH;
+        STATE = STATE_REFRESH;
 
         //调用获取数据的方法
         getData();
     }
 
     private void loadMoreData() {
+        //页数定位到下一页
         curPage = ++curPage;
 
-        state = STATE_MORE;
+        //状态更改为加载更多
+        STATE = STATE_MORE;
         getData();
     }
 
