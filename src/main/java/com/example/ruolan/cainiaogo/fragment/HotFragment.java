@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
 import com.example.ruolan.cainiaogo.R;
-import com.example.ruolan.cainiaogo.adapter.DividerItemDecoration;
+import com.example.ruolan.cainiaogo.adapter.Decoration.DividerItemDecoration;
 import com.example.ruolan.cainiaogo.adapter.HWAdapter;
 import com.example.ruolan.cainiaogo.bean.Page;
 import com.example.ruolan.cainiaogo.bean.Wares;

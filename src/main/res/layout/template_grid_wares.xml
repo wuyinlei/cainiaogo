@@ -22,8 +22,6 @@
     </com.facebook.drawee.view.SimpleDraweeView>
 
 
-
-
     <TextView
         android:id="@+id/text_title"
         android:layout_width="match_parent"

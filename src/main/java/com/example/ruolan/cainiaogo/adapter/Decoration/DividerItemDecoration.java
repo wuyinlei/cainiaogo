@@ -1,4 +1,4 @@
-package com.example.ruolan.cainiaogo.adapter;
+package com.example.ruolan.cainiaogo.adapter.Decoration;
 
 /**
  * Created by ruolan on 2015/11/11.

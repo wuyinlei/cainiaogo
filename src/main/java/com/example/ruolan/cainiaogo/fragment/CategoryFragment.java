@@ -20,8 +20,8 @@ import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.example.ruolan.cainiaogo.R;
 import com.example.ruolan.cainiaogo.adapter.BaseAdapter;
 import com.example.ruolan.cainiaogo.adapter.CategoryAdapter;
-import com.example.ruolan.cainiaogo.adapter.DividerGridItemDecoration;
-import com.example.ruolan.cainiaogo.adapter.DividerItemDecoration;
+import com.example.ruolan.cainiaogo.adapter.Decoration.DividerGridItemDecoration;
+import com.example.ruolan.cainiaogo.adapter.Decoration.DividerItemDecoration;
 import com.example.ruolan.cainiaogo.adapter.WareAdapter;
 import com.example.ruolan.cainiaogo.bean.Banner;
 import com.example.ruolan.cainiaogo.bean.Category;
@@ -164,6 +164,7 @@ public class CategoryFragment extends Fragment {
     }
 
     /**
+     * 一级商品
      * 请求分类商品中的分类列表的方法
      */
     private void requestCategoryData() {

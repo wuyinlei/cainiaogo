@@ -1,4 +1,4 @@
-package com.example.ruolan.cainiaogo;
+package com.example.ruolan.cainiaogo.application;
 
 import android.app.Application;
 

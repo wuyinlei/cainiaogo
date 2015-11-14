@@ -1,4 +1,4 @@
-package com.example.ruolan.cainiaogo.adapter;
+package com.example.ruolan.cainiaogo.adapter.Decoration;
 
 import android.content.Context;
 import android.content.res.TypedArray;

@@ -2,7 +2,6 @@ package com.example.ruolan.cainiaogo.http;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.squareup.okhttp.Callback;
@@ -37,6 +36,7 @@ public class OkHttpHelper {
         mInstance = new OkHttpHelper();
     }
 
+    //构造函数私有化
     private OkHttpHelper() {
 
         //对mHttpClient的一些简单的设置
@@ -57,6 +57,7 @@ public class OkHttpHelper {
 
     /**
      * 对外提供一个公开的静态的实例方法
+     *
      * @return
      */
     public static OkHttpHelper getInstance() {
@@ -66,6 +67,7 @@ public class OkHttpHelper {
 
     /**
      * Get方式
+     *
      * @param url
      * @param callback
      */
@@ -81,6 +83,7 @@ public class OkHttpHelper {
 
     /**
      * Post方式
+     *
      * @param url
      * @param param
      * @param callback
@@ -94,6 +97,7 @@ public class OkHttpHelper {
 
     /**
      * request请求，在这里实现了自定义的calllback方法
+     *
      * @param request
      * @param callback
      */
@@ -119,7 +123,7 @@ public class OkHttpHelper {
 
                     String resultStr = response.body().string();
 
-                    Log.d(TAG, "result=" + resultStr);
+                    // Log.d(TAG, "result=" + resultStr);
 
                     if (callback.mType == String.class) {
                         callbackSuccess(callback, response, resultStr);
@@ -143,7 +147,6 @@ public class OkHttpHelper {
 
 
     /**
-     *
      * @param callback
      * @param response
      * @param obj
@@ -164,6 +167,7 @@ public class OkHttpHelper {
 
     /**
      * 请求失败的时候调用
+     *
      * @param callback
      * @param response
      * @param e
