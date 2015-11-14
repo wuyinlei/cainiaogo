@@ -10,6 +10,7 @@
 
 <!--这里引用了toolbar，也就是显示那个搜索框-->
     <com.example.ruolan.cainiaogo.weiget.CnToolbar
+       android:id="@+id/toolbar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"

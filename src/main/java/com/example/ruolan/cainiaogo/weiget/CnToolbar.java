@@ -9,8 +9,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.ruolan.cainiaogo.R;
@@ -36,7 +36,7 @@ public class CnToolbar extends Toolbar {
     private View mView;
     private TextView mTextTitle;
     private EditText mSearchView;
-    private ImageButton mRightImageButton;
+    private Button mRightButton;
 
 
     /**
@@ -122,7 +122,7 @@ public class CnToolbar extends Toolbar {
             //绑定控件
             mTextTitle = (TextView) mView.findViewById(R.id.toolbar_title);
             mSearchView = (EditText) mView.findViewById(R.id.toolbar_searchview);
-            mRightImageButton = (ImageButton) mView.findViewById(R.id.toolbar_rightButton);
+            mRightButton = (Button) mView.findViewById(R.id.toolbar_rightButton);
 
             /**
              * LayoutParams相当于一个Layout的信息包，它封装了Layout的位置、高、宽等信息。假设在屏幕上一块区域是由一个Layout占领的，如果将一个View添加到一个Layout中，最好告诉Layout用户期望的布局方式，也就是将一个认可的layoutParams传递进去。
@@ -143,19 +143,22 @@ public class CnToolbar extends Toolbar {
 
     public void setRightButtonIcon(Drawable icon) {
 
-        if (mRightImageButton != null) {
+        if (mRightButton != null) {
 
-            mRightImageButton.setImageDrawable(icon);
-            mRightImageButton.setVisibility(VISIBLE);
+            mRightButton.setBackground(icon);
+            mRightButton.setVisibility(VISIBLE);
         }
 
     }
 
+    public Button getRightButton(){
+        return this.mRightButton;
+    }
 
     //对控件实施监听
     public void setRightButtonOnClickListener(OnClickListener li) {
 
-        mRightImageButton.setOnClickListener(li);
+        mRightButton.setOnClickListener(li);
     }
 
 
