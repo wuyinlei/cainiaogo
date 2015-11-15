@@ -151,6 +151,15 @@ public class CnToolbar extends Toolbar {
 
     }
 
+    public void setRightButtonText(CharSequence text){
+        mRightButton.setText(text);
+        mRightButton.setVisibility(VISIBLE);
+    }
+
+    public void setRightButtonText(int id){
+        setRightButtonText(getResources().getString(id));
+    }
+
     public Button getRightButton(){
         return this.mRightButton;
     }

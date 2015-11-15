@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Created by ruolan on 2015/11/11.
  */
-public class CartFragment extends Fragment {
+public class CartFragment extends Fragment implements View.OnClickListener {
 
     private RecyclerView mRecyclerView;
 
@@ -36,6 +36,9 @@ public class CartFragment extends Fragment {
     private Button mBtnOrder;
 
     private Button mBtnDel;
+
+    public static final int ACTION_EDIT = 1;
+    public static final int ACTION_CAMPLATE = 2;
 
     private TextView mTextTotal;
 
@@ -54,6 +57,12 @@ public class CartFragment extends Fragment {
         mCheckBox = (CheckBox) view.findViewById(R.id.checkbox_all);
         mBtnOrder = (Button) view.findViewById(R.id.btn_order);
         mBtnDel = (Button) view.findViewById(R.id.btn_del);
+        mBtnDel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCartAdapter.delCart();
+            }
+        });
         mTextTotal = (TextView) view.findViewById(R.id.text_total);
 
         showData();
@@ -61,44 +70,93 @@ public class CartFragment extends Fragment {
         return view;
     }
 
+
+
     /**
      * 刷新购物车中的数据
      */
-    public void refData(){
+    public void refData() {
         mCartAdapter.clear();
 
         List<ShoppingCart> carts = mCartProvider.getAll();
 
         mCartAdapter.addData(carts);
+        mCartAdapter.showTotalPrice();
     }
+
+
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof MainActivity){
+        if (context instanceof MainActivity) {
             MainActivity activity = (MainActivity) context;
             mToolbar = (CnToolbar) activity.findViewById(R.id.toolbar);
-
-            mToolbar.hideSearchView();
             mToolbar.setTitle(R.string.cart);
-
-            mToolbar.setVisibility(View.VISIBLE);
-            mToolbar.getRightButton().setText("编辑");
-            mToolbar.getRightButton().setOnClickListener(null);
+            changeToolbar();
         }
     }
-    
 
-    private void showData(){
+
+    public void changeToolbar() {
+        mToolbar.showTitleView();
+        mToolbar.hideSearchView();
+        mToolbar.setTitle(R.string.cart);
+        mToolbar.getRightButton().setVisibility(View.VISIBLE);
+        mToolbar.setRightButtonText("编辑");
+        mToolbar.getRightButton().setOnClickListener(this);
+        mToolbar.getRightButton().setTag(ACTION_EDIT);
+    }
+
+    private void showData() {
         List<ShoppingCart> carts = mCartProvider.getAll();
 
-        mCartAdapter = new CartAdapter(getContext(),carts);
+        mCartAdapter = new CartAdapter(getContext(), carts, mCheckBox, mTextTotal);
 
         mRecyclerView.setAdapter(mCartAdapter);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL_LIST));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
+
+    }
+
+    private void showDelControl() {
+        mToolbar.getRightButton().setText("完成");
+        mTextTotal.setVisibility(View.GONE);
+        mBtnOrder.setVisibility(View.GONE);
+        mBtnDel.setVisibility(View.VISIBLE);
+
+        mToolbar.getRightButton().setTag(ACTION_CAMPLATE);
+
+        mCartAdapter.checkAll_None(false);
+        mCheckBox.setChecked(false);
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        int action = (int) v.getTag();
+        if (ACTION_EDIT == action) {
+            showDelControl();
+        } else if (ACTION_CAMPLATE == action) {
+            hideDelControl();
+        }
+
+
+    }
+
+    private void hideDelControl() {
+        mToolbar.getRightButton().setText("编辑");
+        mTextTotal.setVisibility(View.VISIBLE);
+        mBtnOrder.setVisibility(View.VISIBLE);
+        mBtnDel.setVisibility(View.GONE);
+
+        mToolbar.getRightButton().setTag(ACTION_EDIT);
+
+        mCartAdapter.checkAll_None(true);
+        mCartAdapter.showTotalPrice();
+        mCheckBox.setChecked(true);
 
     }
 }

@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
             if (fragment != null) {
                 cartFragment = (CartFragment) fragment;
                 cartFragment.refData();
+                cartFragment.changeToolbar();
             }
         }
         else {
