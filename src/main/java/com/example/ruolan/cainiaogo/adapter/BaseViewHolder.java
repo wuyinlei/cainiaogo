@@ -25,18 +25,22 @@ public class BaseViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         itemView.setOnClickListener(this);
     }
 
+    //对TextView的封装
     public TextView getTextView(int id){
         return findView(id);
     }
 
+    //对ImageView的封装
     public ImageView getImageView(int id){
         return findView(id);
     }
 
+    //对Button的封装
     public Button getButton(int id){
         return findView(id);
     }
 
+    //对View的封装
     public View getView(int id){
         return findView(id);
     }
@@ -50,6 +54,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         return (T) view;
     }
 
+    //对ItemClick的设置的点击事件
     @Override
     public void onClick(View v) {
         if (mListener != null){

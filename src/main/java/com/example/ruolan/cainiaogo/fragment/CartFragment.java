@@ -37,6 +37,7 @@ public class CartFragment extends Fragment implements View.OnClickListener {
 
     private Button mBtnDel;
 
+    //定义的两个状态，来判断是否是处于编辑状态和完成状态
     public static final int ACTION_EDIT = 1;
     public static final int ACTION_CAMPLATE = 2;
 
@@ -78,8 +79,8 @@ public class CartFragment extends Fragment implements View.OnClickListener {
     public void refData() {
         mCartAdapter.clear();
 
+        //得到购物车中的所有数据
         List<ShoppingCart> carts = mCartProvider.getAll();
-
         mCartAdapter.addData(carts);
         mCartAdapter.showTotalPrice();
     }
@@ -98,48 +99,64 @@ public class CartFragment extends Fragment implements View.OnClickListener {
     }
 
 
+    /**
+     * 判断是否toolbar是否显示
+     */
     public void changeToolbar() {
-        mToolbar.showTitleView();
-        mToolbar.hideSearchView();
-        mToolbar.setTitle(R.string.cart);
-        mToolbar.getRightButton().setVisibility(View.VISIBLE);
-        mToolbar.setRightButtonText("编辑");
-        mToolbar.getRightButton().setOnClickListener(this);
-        mToolbar.getRightButton().setTag(ACTION_EDIT);
+        mToolbar.showTitleView();   //显示标题栏
+        mToolbar.hideSearchView();  //隐藏搜索框
+        mToolbar.setTitle(R.string.cart);  //给标题栏设置title
+        mToolbar.getRightButton().setVisibility(View.VISIBLE); //把标题栏的右侧的button按钮显示出来
+        mToolbar.setRightButtonText(R.string.edit);  //给button按钮设置文字
+        mToolbar.getRightButton().setOnClickListener(this); //给右侧button设置点击监听事件
+        mToolbar.getRightButton().setTag(ACTION_EDIT);    //给右侧button按钮设置一个tag状态，为了以后的变化
     }
 
+    /**
+     * 显示购物车中的所有的数据
+     */
     private void showData() {
+        //获取购物车中的已经存在的所有的商品
         List<ShoppingCart> carts = mCartProvider.getAll();
 
+        //初始化cartadapter
         mCartAdapter = new CartAdapter(getContext(), carts, mCheckBox, mTextTotal);
 
+        //给recycleview设置adapter
         mRecyclerView.setAdapter(mCartAdapter);
 
+        //设置排列方式
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
 
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
 
     }
 
+    //显示编辑完成的界面的显示
     private void showDelControl() {
         mToolbar.getRightButton().setText("完成");
         mTextTotal.setVisibility(View.GONE);
         mBtnOrder.setVisibility(View.GONE);
         mBtnDel.setVisibility(View.VISIBLE);
 
+        //改变button中的状态
         mToolbar.getRightButton().setTag(ACTION_CAMPLATE);
 
+        //在是显示完成的时候，也就是在编辑的时候，把购物车中的所有商品处于为非选中状态
         mCartAdapter.checkAll_None(false);
+        //全选的状态也是处于非选中状态
         mCheckBox.setChecked(false);
     }
 
     @Override
     public void onClick(View v) {
 
+        //判断上面右侧标题栏中的按钮的状态
         int action = (int) v.getTag();
-        if (ACTION_EDIT == action) {
+        if (ACTION_EDIT == action) {   //如果是编辑状态，就调用编辑方法
             showDelControl();
-        } else if (ACTION_CAMPLATE == action) {
+        } else if (ACTION_CAMPLATE == action) {   //
             hideDelControl();
         }
 
