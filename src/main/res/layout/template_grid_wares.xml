@@ -5,17 +5,14 @@
     android:layout_height="match_parent"
     android:background="@drawable/selector_list_item"
     android:orientation="vertical"
-    android:padding="5dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    android:padding="5dp">
 
     <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/drawee_view"
         android:layout_width="@dimen/ware_grid_img_width"
         android:layout_height="@dimen/ware_grid_img_height"
-        android:id="@+id/drawee_view"
         android:layout_alignParentLeft="true"
         android:layout_gravity="center"
-
 
         >
 
@@ -27,9 +24,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:maxLines="3"
         android:textColor="@color/gray"
         android:textSize="16sp"
-        android:maxLines="3"
 
         />
 
@@ -37,11 +34,10 @@
         android:id="@+id/text_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textColor="@color/crimson"
         android:layout_gravity="right"
+        android:textColor="@color/crimson"
+        android:textSize="18sp"
         />
-
 
 
 </LinearLayout>

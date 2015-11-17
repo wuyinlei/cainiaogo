@@ -25,7 +25,6 @@ public class WareAdapter extends SimpleAdapter<Wares> {
     @Override
     protected void convert(BaseViewHolder viewHoder, Wares item) {
 
-
         viewHoder.getTextView(R.id.text_title).setText(item.getName());
         viewHoder.getTextView(R.id.text_price).setText("￥"+item.getPrice());
         SimpleDraweeView draweeView = (SimpleDraweeView) viewHoder.getView(R.id.drawee_view);

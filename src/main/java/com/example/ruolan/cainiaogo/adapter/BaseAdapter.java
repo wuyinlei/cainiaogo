@@ -102,6 +102,35 @@ public abstract class BaseAdapter<T, H extends BaseViewHolder> extends RecyclerV
         }
     }
 
+    public void refreshData(List<T> list){
+
+        if(list !=null && list.size()>0){
+
+            clear();
+            int size = list.size();
+            for (int i=0;i<size;i++){
+                datas.add(i,list.get(i));
+                notifyItemInserted(i);
+            }
+
+        }
+    }
+
+    public void loadMoreData(List<T> list){
+
+        if(list !=null && list.size()>0){
+
+            int size = list.size();
+            int begin = datas.size();
+            for (int i=0;i<size;i++){
+                datas.add(list.get(i));
+                notifyItemInserted(i+begin);
+            }
+
+        }
+
+    }
+
     protected abstract void convert(H viewHoder, T item);
     // public abstract void bindData(BaseViewHolder viewHolder,T t);
 }
