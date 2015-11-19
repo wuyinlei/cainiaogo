@@ -1,5 +1,9 @@
 package com.example.ruolan.cainiaogo.adapter;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,9 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ruolan.cainiaogo.R;
-import com.example.ruolan.cainiaogo.bean.HomeCategory;
+import com.example.ruolan.cainiaogo.bean.Campaign;
+import com.example.ruolan.cainiaogo.bean.HomeCampaign;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
 
 
 /**
@@ -19,18 +26,30 @@ import java.util.List;
 public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapter.ViewHolder> {
 
 
-    private List<HomeCategory> mDatas;
+    private List<HomeCampaign> mDatas;
+    private Context mContext;
 
     //构造函数，初始化list
-    public HomeCategoryAdapter(List<HomeCategory> datas) {
+    public HomeCategoryAdapter(List<HomeCampaign> datas) {
         mDatas = datas;
     }
 
     private LayoutInflater mInflater;
+    private OnCampaignClickListener mListener;
+
+    public void setOnCampaignClickListener(OnCampaignClickListener listener) {
+
+        this.mListener = listener;
+    }
 
     //定义两个常量，用来判断是否左右显示
     private static int VIEW_TYPE_L = 0;
     private static int VIEW_TYPE_R = 1;
+
+    public HomeCategoryAdapter(List<HomeCampaign> homeCampaigns, Context context) {
+        mDatas = homeCampaigns;
+        mContext = context;
+    }
 
     /**
      * 相当于listview中的getView方法
@@ -66,11 +85,18 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
      */
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        HomeCategory category = mDatas.get(position);
+        /*HomeCategory category = mDatas.get(position);
         // holder.textTitle.setText(category.getName());
         holder.imageViewBig.setImageResource(category.getImgBig());
         holder.imageViewSmallTop.setImageResource(category.getImgSmallTop());
-        holder.imageViewSmallBottom.setImageResource(category.getImgSmallBottom());
+        holder.imageViewSmallBottom.setImageResource(category.getImgSmallBottom());*/
+        HomeCampaign homeCampaign = mDatas.get(position);
+
+        holder.textTitle.setText(homeCampaign.getTitle());
+        Picasso.with(mContext).load(homeCampaign.getCpOne().getImgUrl()).into(holder.imageViewBig);
+        Picasso.with(mContext).load(homeCampaign.getCpTwo().getImgUrl()).into(holder.imageViewSmallTop);
+        Picasso.with(mContext).load(homeCampaign.getCpThree().getImgUrl()).into(holder.imageViewSmallBottom);
+
     }
 
     @Override
@@ -78,7 +104,7 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
         return mDatas.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
 
         TextView textTitle;
@@ -94,7 +120,52 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
             // textTitle = (TextView) itemView.findViewById(R.id.title_text);
             textTitle = (TextView) itemView.findViewById(R.id.title_text);
 
+            imageViewBig.setOnClickListener(this);
+            imageViewSmallTop.setOnClickListener(this);
+            imageViewSmallBottom.setOnClickListener(this);
+
         }
 
+        @Override
+        public void onClick(View v) {
+            if (mListener != null) {
+                aniv(v);
+            }
+        }
+
+        private void aniv(final View v) {
+            ObjectAnimator animator = ObjectAnimator.ofFloat(v, "rotationX", 0.0F, 360.0F)
+                    .setDuration(200);
+            animator.addListener(new AnimatorListenerAdapter() {
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+
+                    HomeCampaign campaign = mDatas.get(getLayoutPosition());
+
+                    switch (v.getId()) {
+
+                        case R.id.imgview_big:
+                            mListener.onClick(v, campaign.getCpOne());
+                            break;
+
+                        case R.id.imgview_small_top:
+                            mListener.onClick(v, campaign.getCpTwo());
+                            break;
+
+                        case R.id.imgview_small_bottom:
+                            mListener.onClick(v, campaign.getCpThree());
+                            break;
+
+                    }
+
+                }
+            });
+            animator.start();
+        }
+    }
+
+    public interface OnCampaignClickListener {
+        void onClick(View view, Campaign campaign);
     }
 }

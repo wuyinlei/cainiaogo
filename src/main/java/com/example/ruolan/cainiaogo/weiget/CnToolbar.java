@@ -76,7 +76,6 @@ public class CnToolbar extends Toolbar {
             final TintTypedArray a = TintTypedArray.obtainStyledAttributes(getContext(), attrs,
                     R.styleable.CnToolbar, defStyleAttr, 0);
 
-
             final Drawable rightIcon = a.getDrawable(R.styleable.CnToolbar_rightButtonIcon);
             if (rightIcon != null) {
                 //setNavigationIcon(navIcon);
@@ -144,11 +143,17 @@ public class CnToolbar extends Toolbar {
     public void setRightButtonIcon(Drawable icon) {
 
         if (mRightButton != null) {
-
             mRightButton.setBackground(icon);
             mRightButton.setVisibility(VISIBLE);
         }
 
+    }
+
+
+
+    public void setRightButtonIcon(int icon) {
+
+        setRightButtonIcon(getResources().getDrawable(icon));
     }
 
     public void setRightButtonText(CharSequence text){

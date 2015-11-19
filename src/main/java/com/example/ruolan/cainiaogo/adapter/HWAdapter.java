@@ -3,6 +3,7 @@ package com.example.ruolan.cainiaogo.adapter;
 import android.content.Context;
 import android.net.Uri;
 import android.view.View;
+import android.widget.Button;
 
 import com.example.ruolan.cainiaogo.R;
 import com.example.ruolan.cainiaogo.bean.ShoppingCart;
@@ -32,14 +33,16 @@ public class HWAdapter extends SimpleAdapter<Wares> {
 
         viewHolder.getTextView(R.id.text_title).setText(wares.getName());
         viewHolder.getTextView(R.id.text_price).setText("￥" + wares.getPrice());
-
-        viewHolder.getButton(R.id.btn_add).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mProvider.put(convertData(wares));
-                ToastUtils.show(mContext,"已经添加到购物车");
-            }
-        });
+        Button button = viewHolder.getButton(R.id.btn_add);
+        if (button != null) {
+            viewHolder.getButton(R.id.btn_add).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mProvider.put(convertData(wares));
+                    ToastUtils.show(mContext, "已经添加到购物车");
+                }
+            });
+        }
     }
 
     /**
@@ -56,6 +59,11 @@ public class HWAdapter extends SimpleAdapter<Wares> {
         cart.setPrice(item.getPrice());
 
         return cart;
+    }
+
+    public void resetLayout(int layoutId){
+        this.mLayoutResId  = layoutId;
+        notifyItemRangeChanged(0,getDatas().size());
     }
 
 

@@ -17,18 +17,19 @@ import java.util.List;
 /**
  * Created by ruolan on 2015/11/12.
  */
-public class HotWaresAdapter extends RecyclerView.Adapter<HotWaresAdapter.ViewHolder>{
+public class HotWaresAdapter extends RecyclerView.Adapter<HotWaresAdapter.ViewHolder> {
 
     private List<Wares> mDatas;
 
     private LayoutInflater mInflater;
 
-    public HotWaresAdapter(List<Wares> wares){
+    public HotWaresAdapter(List<Wares> wares) {
         mDatas = wares;
     }
 
     /**
      * 相当于listview中的getView()方法
+     *
      * @param parent
      * @param viewType
      * @return
@@ -48,12 +49,13 @@ public class HotWaresAdapter extends RecyclerView.Adapter<HotWaresAdapter.ViewHo
          把初始化Fresco调整到setContentView(R.layout.activity_main);上边
          */
         Fresco.initialize(parent.getContext());
-        View view = mInflater.inflate(R.layout.template_hot_wares,parent,false);
+        View view = mInflater.inflate(R.layout.template_hot_wares, parent, false);
         return new ViewHolder(view);
     }
 
     /**
      * bind
+     *
      * @param holder
      * @param position
      */
@@ -72,7 +74,7 @@ public class HotWaresAdapter extends RecyclerView.Adapter<HotWaresAdapter.ViewHo
     /**
      * 清楚数据的方法
      */
-    public void cleanData(){
+    public void cleanData() {
         mDatas.clear();
         notifyItemRangeRemoved(0, mDatas.size());
     }
@@ -80,9 +82,10 @@ public class HotWaresAdapter extends RecyclerView.Adapter<HotWaresAdapter.ViewHo
 
     /**
      * 添加数据的方法
+     *
      * @param datas
      */
-    public void addData(List<Wares> datas){
+    public void addData(List<Wares> datas) {
         addData(0, datas);
     }
 
@@ -93,9 +96,9 @@ public class HotWaresAdapter extends RecyclerView.Adapter<HotWaresAdapter.ViewHo
         return mDatas;
     }
 
-    public void addData(int position,List<Wares> wares){
+    public void addData(int position, List<Wares> wares) {
 
-        if (wares != null &&wares.size() > 0) {
+        if (wares != null && wares.size() > 0) {
             mDatas.addAll(wares);
 
             notifyItemRangeChanged(0, mDatas.size());
@@ -108,31 +111,30 @@ public class HotWaresAdapter extends RecyclerView.Adapter<HotWaresAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        if (mDatas != null && mDatas.size() > 0){
+        if (mDatas != null && mDatas.size() > 0) {
             return mDatas.size();
         }
         return 0;
     }
 
-    public Wares getData(int position){
+    public Wares getData(int position) {
         return mDatas.get(position);
     }
 
 
-
     class ViewHolder extends RecyclerView.ViewHolder {
 
-         //定义所需要的各种控件
-         SimpleDraweeView mDraweeView;
-         TextView textTitle;
-         TextView textPrice;
+        //定义所需要的各种控件
+        SimpleDraweeView mDraweeView;
+        TextView textTitle;
+        TextView textPrice;
 
-         public ViewHolder(View itemView) {
-             super(itemView);
-             //绑定布局中的控件
-             mDraweeView = (SimpleDraweeView) itemView.findViewById(R.id.drawee_view);
-             textTitle = (TextView) itemView.findViewById(R.id.text_title);
-             textPrice = (TextView) itemView.findViewById(R.id.text_price);
-         }
-     }
+        public ViewHolder(View itemView) {
+            super(itemView);
+            //绑定布局中的控件
+            mDraweeView = (SimpleDraweeView) itemView.findViewById(R.id.drawee_view);
+            textTitle = (TextView) itemView.findViewById(R.id.text_title);
+            textPrice = (TextView) itemView.findViewById(R.id.text_price);
+        }
+    }
 }

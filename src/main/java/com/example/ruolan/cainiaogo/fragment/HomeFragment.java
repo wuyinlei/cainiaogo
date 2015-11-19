@@ -1,5 +1,6 @@
 package com.example.ruolan.cainiaogo.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,15 +17,20 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.example.ruolan.cainiaogo.R;
+import com.example.ruolan.cainiaogo.activity.WareListActivity;
 import com.example.ruolan.cainiaogo.adapter.HomeCategoryAdapter;
 import com.example.ruolan.cainiaogo.bean.Banner;
+import com.example.ruolan.cainiaogo.bean.Campaign;
+import com.example.ruolan.cainiaogo.bean.HomeCampaign;
 import com.example.ruolan.cainiaogo.bean.HomeCategory;
+import com.example.ruolan.cainiaogo.http.BaseCallback;
 import com.example.ruolan.cainiaogo.http.OkHttpHelper;
 import com.example.ruolan.cainiaogo.http.SpotsCallback;
+import com.example.ruolan.cainiaogo.uri.Contants;
 import com.google.gson.Gson;
+import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,6 +39,8 @@ import java.util.List;
 public class HomeFragment extends Fragment {
 
     private HomeCategoryAdapter mAdapter;
+
+
     private HomeCategory category;
 
     //创建一个gson实例
@@ -40,6 +48,7 @@ public class HomeFragment extends Fragment {
 
     //用一个list数组来存放gson数据对象
     private List<Banner> mBanners;
+
 
     private static final String TAG = "HomeFragment";
 
@@ -59,6 +68,7 @@ public class HomeFragment extends Fragment {
         //找到SliderLayout的实例通过findViewById
         mSliderLayout = (SliderLayout) view.findViewById(R.id.slider);
 
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycleview);
         mIndicator = (PagerIndicator) view.findViewById(R.id.custom_indicator);
         requestImages();
         //CardView效果初始化
@@ -68,49 +78,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void requestImages() {
-        String url ="http://112.124.22.238:8081/course_api/banner/query?type=1";
-    /*    //url
-        String url ="http://112.124.22.238:8081/course_api/banner/query";
+        String url = "http://112.124.22.238:8081/course_api/banner/query?type=1";
 
-
-        OkHttpClient client = new OkHttpClient();
-
-        RequestBody body = new FormEncodingBuilder()
-                .add("type","1")
-
-                .build();
-
-
-        Request request = new Request.Builder()
-                .url(url)
-                .post(body)
-                .build();
-
-
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Request request, IOException e) {
-
-
-            }
-
-            @Override
-            public void onResponse(Response response) throws IOException {
-
-                if (response.isSuccessful()) {
-
-                    String json = response.body().string();
-
-                    Type type = new TypeToken<List<Banner>>() {
-                    }.getType();
-                    mBanners = mGson.fromJson(json, type);
-                    initSlider();
-                }
-            }
-        });
-
-*/
 
         httpHelper.get(url, new SpotsCallback<List<Banner>>(getContext()) {
 
@@ -131,7 +100,35 @@ public class HomeFragment extends Fragment {
     //主页中部的图片加载的一个滑动，商品的推荐
     private void initRecycleView(View view) {
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycleview);
+        httpHelper.get(Contants.API.CAMPAIGN_HOME, new BaseCallback<List<HomeCampaign>>() {
+            @Override
+            public void onBeforeRequest(Request request) {
+
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(Response response) {
+
+            }
+
+            @Override
+            public void onSuccess(Response response, List<HomeCampaign> homeCampaigns) {
+                initData(homeCampaigns);
+            }
+
+
+            @Override
+            public void onError(Response response, int code, Exception e) {
+
+            }
+        });
+
+      /*  mRecyclerView = (RecyclerView) view.findViewById(R.id.recycleview);
 
         List<HomeCategory> datas = new ArrayList<>(15);
 
@@ -155,8 +152,26 @@ public class HomeFragment extends Fragment {
 
         mRecyclerView.setAdapter(mAdapter);
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));*/
 
+    }
+
+    private void initData(List<HomeCampaign> homeCampaigns) {
+
+        mAdapter = new HomeCategoryAdapter(homeCampaigns,getActivity());
+        mAdapter.setOnCampaignClickListener(new HomeCategoryAdapter.OnCampaignClickListener() {
+            @Override
+            public void onClick(View view, Campaign campaign) {
+                //Toast.makeText(getContext(),"点击我了哈",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), WareListActivity.class);
+                intent.putExtra(Contants.COMPAINGIN_ID,campaign.getId());
+                startActivity(intent);
+            }
+        });
+
+        mRecyclerView.setAdapter(mAdapter);
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
     }
 
     /**
@@ -164,8 +179,8 @@ public class HomeFragment extends Fragment {
      */
     public void initSlider() {
 
-        if(mBanners != null){
-            for (Banner banner:mBanners) {
+        if (mBanners != null) {
+            for (Banner banner : mBanners) {
                 //创建sliderView
                 TextSliderView textSliderView = new TextSliderView(this.getActivity());
                 textSliderView.image(banner.getImgUrl());
@@ -177,7 +192,7 @@ public class HomeFragment extends Fragment {
         }
 
         //设置动画效果
-         mSliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);   //系统默认的
+        mSliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);   //系统默认的
         //接下来使用自定义的
         mSliderLayout.setCustomIndicator(mIndicator);
         mSliderLayout.setCustomAnimation(new DescriptionAnimation());

@@ -112,7 +112,6 @@ public class OkHttpHelper {
                 callback.onFailure(request, e);
 
             }
-
             @Override
             public void onResponse(Response response) throws IOException {
 

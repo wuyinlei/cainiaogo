@@ -10,6 +10,8 @@
 
     <color name="gainsboro">#dcdcdc</color>
 
+    <color name="goldyellow">#ff9428</color>
+
     <color name="green_btn_color_pressed">#ff298409</color>
     <color name="red_btn_color_normal">#ffff5454</color>
     <color name="red_btn_color_pressed">#ffd24242</color>

@@ -23,9 +23,7 @@ public abstract class BaseFragment extends Fragment {
         ViewUtils.inject(this, view);
 
         initToolBar();
-
         init();
-
         return view;
 
     }
