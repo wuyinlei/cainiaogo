@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.ruolan.cainiaogo.R;
-import com.example.ruolan.cainiaogo.bean.ShoppingCart;
 import com.example.ruolan.cainiaogo.bean.Wares;
 import com.example.ruolan.cainiaogo.utils.CartProvider;
 import com.example.ruolan.cainiaogo.utils.ToastUtils;
@@ -38,28 +37,13 @@ public class HWAdapter extends SimpleAdapter<Wares> {
             viewHolder.getButton(R.id.btn_add).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mProvider.put(convertData(wares));
+                    mProvider.put(wares);
                     ToastUtils.show(mContext, "已经添加到购物车");
                 }
             });
         }
     }
 
-    /**
-     * 把wares类转化为ShoppingCart类
-     * @param item
-     * @return
-     */
-    public ShoppingCart convertData(Wares item){
-        ShoppingCart cart = new ShoppingCart();
-        cart.setId(item.getId());
-        cart.setDescription(item.getDescription());
-        cart.setImgUrl(item.getImgUrl());
-        cart.setName(item.getName());
-        cart.setPrice(item.getPrice());
-
-        return cart;
-    }
 
     public void resetLayout(int layoutId){
         this.mLayoutResId  = layoutId;

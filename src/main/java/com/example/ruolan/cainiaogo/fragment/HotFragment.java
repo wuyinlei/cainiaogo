@@ -1,5 +1,6 @@
 package com.example.ruolan.cainiaogo.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,8 @@ import android.view.ViewGroup;
 
 import com.cjj.MaterialRefreshLayout;
 import com.example.ruolan.cainiaogo.R;
+import com.example.ruolan.cainiaogo.activity.WareDetailActivity;
+import com.example.ruolan.cainiaogo.adapter.BaseAdapter;
 import com.example.ruolan.cainiaogo.adapter.HWAdapter;
 import com.example.ruolan.cainiaogo.bean.Page;
 import com.example.ruolan.cainiaogo.bean.Wares;
@@ -66,6 +69,15 @@ public class HotFragment extends BaseFragment implements Pager.OnPageListener<Wa
 
        mAdapter = new HWAdapter(getContext(),datas);
 
+        mAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClick(View view, int position) {
+                Wares wares = mAdapter.getItem(position);
+                Intent intent = new Intent(getActivity(), WareDetailActivity.class);
+                intent.putExtra(Contants.WARE,wares);
+                startActivity(intent);
+            }
+        });
 
         mRecyclerView.setAdapter(mAdapter);
 

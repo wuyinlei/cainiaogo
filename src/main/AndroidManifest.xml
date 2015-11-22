@@ -22,6 +22,8 @@
         </activity>
         <activity android:name=".activity.WareListActivity"
                   android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".activity.WareDetailActivity"
+                  android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
