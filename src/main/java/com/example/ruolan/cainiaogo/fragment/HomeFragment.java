@@ -164,7 +164,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view, Campaign campaign) {
                 //Toast.makeText(getContext(),"点击我了哈",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), WareListActivity.class);
-                intent.putExtra(Contants.COMPAINGIN_ID,campaign.getId());
+                intent.putExtra(Contants.COMPAINGAIN_ID,campaign.getId());
                 startActivity(intent);
             }
         });

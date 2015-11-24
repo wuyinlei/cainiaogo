@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class HWAdapter extends SimpleAdapter<Wares> {
 
-    CartProvider mProvider;
+    CartProvider mProvider ;
 
     public HWAdapter(Context context, List<Wares> datas) {
         super(context, R.layout.template_hot_wares, datas);

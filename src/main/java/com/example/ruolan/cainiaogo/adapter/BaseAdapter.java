@@ -80,8 +80,10 @@ public abstract class BaseAdapter<T, H extends BaseViewHolder> extends RecyclerV
 
     public void clear() {
         int itemCount = datas.size();
-        datas.clear();
-        this.notifyItemRangeRemoved(0, itemCount);
+        if (itemCount != 0) {
+            datas.clear();
+            this.notifyItemRangeRemoved(0, itemCount);
+        }
     }
 
     public List<T> getDatas() {

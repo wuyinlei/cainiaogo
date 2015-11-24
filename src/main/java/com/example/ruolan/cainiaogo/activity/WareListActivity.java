@@ -68,7 +68,7 @@ public class WareListActivity extends AppCompatActivity implements Pager.OnPageL
         mRecyclerView = (RecyclerView) findViewById(R.id.recycle_view);
         mRefreshLayout = (MaterialRefreshLayout) findViewById(R.id.refresh_layout);
 
-        campaignId = getIntent().getLongExtra(Contants.COMPAINGIN_ID, 0);
+        campaignId = getIntent().getLongExtra(Contants.COMPAINGAIN_ID, 0);
 
         mToolbar = (CnToolbar) findViewById(R.id.toolbar);
 

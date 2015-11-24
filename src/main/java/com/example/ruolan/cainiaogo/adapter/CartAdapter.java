@@ -24,6 +24,8 @@ public class CartAdapter extends SimpleAdapter<ShoppingCart> implements BaseAdap
 
     private CartProvider cartPrivider;
 
+
+
     public CartAdapter(Context context, List<ShoppingCart> datas, final CheckBox checkBox, TextView textView) {
         super(context, R.layout.templete_cart, datas);
         this.mCheckBox = checkBox;

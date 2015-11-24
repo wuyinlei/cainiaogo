@@ -67,7 +67,7 @@ public class HotFragment extends BaseFragment implements Pager.OnPageListener<Wa
     @Override
     public void load(List<Wares> datas, int totalPage, int totalCount) {
 
-       mAdapter = new HWAdapter(getContext(),datas);
+        mAdapter = new HWAdapter(getContext(),datas);
 
         mAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
             @Override
@@ -99,6 +99,5 @@ public class HotFragment extends BaseFragment implements Pager.OnPageListener<Wa
         mAdapter.loadMoreData(datas);
         mRecyclerView.scrollToPosition(mAdapter.getDatas().size());
     }
-
 
 }

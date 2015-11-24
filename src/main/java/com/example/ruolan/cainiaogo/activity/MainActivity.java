@@ -61,8 +61,8 @@ public class MainActivity extends AppCompatActivity {
         Tab tab_home = new Tab(R.string.home, R.drawable.selector_icon_home, HomeFragment.class);
         Tab tab_hot = new Tab(R.string.hot, R.drawable.selector_icon_hot, HotFragment.class);
         Tab tab_category = new Tab(R.string.catagory, R.drawable.selector_icon_category, CategoryFragment.class);
-        Tab tab_cart = new Tab(R.string.cart, R.drawable.selector_icon_cart, CartFragment.class);
-        Tab tab_mine = new Tab(R.string.mine, R.drawable.selector_icon_mine, MineFragment.class);
+        final Tab tab_cart = new Tab(R.string.cart, R.drawable.selector_icon_cart, CartFragment.class);
+        final Tab tab_mine = new Tab(R.string.mine, R.drawable.selector_icon_mine, MineFragment.class);
 
         //把创建的tab添加到list数组中
         mTabs.add(tab_home);
@@ -88,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
             public void onTabChanged(String tabId) {
                 if (tabId == getString(R.string.cart)) {
                     refData();
+                }else if (tabId == getString(R.string.mine)){
+                    mToolbar.hideSearchView();
                 }
                 else {
                     mToolbar.hideTitleView();

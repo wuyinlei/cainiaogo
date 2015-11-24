@@ -41,6 +41,7 @@ import java.util.List;
  */
 public class CategoryFragment extends Fragment {
 
+
     //当前页数
     private int curPage = 1;
 
@@ -347,6 +348,5 @@ public class CategoryFragment extends Fragment {
         }
 
     }
-
 
 }

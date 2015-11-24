@@ -36,6 +36,7 @@ public class CartProvider {
 
     public void put(ShoppingCart cart){
 
+
         ShoppingCart temp =  datas.get((int) cart.getId());
 
         if(temp !=null){
@@ -52,12 +53,12 @@ public class CartProvider {
 
     }
 
+
     public void put(Wares wares){
+
 
         ShoppingCart cart = convertData(wares);
         put(cart);
-
-
     }
 
     public void update(ShoppingCart cart){
@@ -134,13 +135,11 @@ public class CartProvider {
 
     }
 
-    /**
-     * 把wares类转化为ShoppingCart类
-     * @param item
-     * @return
-     */
+
     public ShoppingCart convertData(Wares item){
+
         ShoppingCart cart = new ShoppingCart();
+
         cart.setId(item.getId());
         cart.setDescription(item.getDescription());
         cart.setImgUrl(item.getImgUrl());

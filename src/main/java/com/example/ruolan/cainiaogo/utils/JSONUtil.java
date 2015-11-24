@@ -36,4 +36,5 @@ public class JSONUtil {
 
         return gson.toJson(object);
     }
+
 }

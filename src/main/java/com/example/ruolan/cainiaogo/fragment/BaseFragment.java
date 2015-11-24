@@ -1,5 +1,6 @@
 package com.example.ruolan.cainiaogo.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,13 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.ruolan.cainiaogo.activity.LoginActivity;
+import com.example.ruolan.cainiaogo.application.CniaoApplication;
+import com.example.ruolan.cainiaogo.bean.User;
 import com.lidroid.xutils.ViewUtils;
 
 /**
  * Created by ruolan on 2015/11/17.
  */
 public abstract class BaseFragment extends Fragment {
-
 
     @Nullable
     @Override
@@ -37,5 +40,26 @@ public abstract class BaseFragment extends Fragment {
 
     public abstract void init();
 
+    public void startActivity(Intent intent, boolean isNeedLogin) {
+
+
+        if (isNeedLogin) {
+
+            User user = CniaoApplication.getInstance().getUser();
+            if (user != null) {
+                super.startActivity(intent);
+            } else {
+
+                CniaoApplication.getInstance().putIntent(intent);
+                Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
+                super.startActivity(loginIntent);
+
+            }
+
+        } else {
+            super.startActivity(intent);
+        }
+
+    }
 
 }

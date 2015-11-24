@@ -7,7 +7,7 @@ import android.content.SharedPreferences;
  * Created by ruolan on 2015/11/14.
  */
 public class PreferencesUtils {
-    public static String PREFERENCE_NAME = "ruolanmingyue";
+    public static String PREFERENCE_NAME = "Cniao_Pref_Common";
 
     /**
      * put string preferences

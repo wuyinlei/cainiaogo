@@ -5,19 +5,19 @@
     <item android:state_enabled="false">
         <shape android:shape="rectangle">
             <corners android:radius="@dimen/buttonCornerSize" />
-            <solid android:color="@color/red_btn_color_disable" />
+            <solid android:color="@color/green_btn_color_disable" />
         </shape>
     </item>
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
             <corners android:radius="@dimen/buttonCornerSize" />
-            <solid android:color="@color/red_btn_color_pressed" />
+            <solid android:color="@color/green_btn_color_pressed" />
         </shape>
     </item>
     <item>
         <shape android:shape="rectangle">
             <corners android:radius="@dimen/buttonCornerSize" />
-            <solid android:color="@color/red_btn_color_normal" />
+            <solid android:color="@color/green_btn_color_normal" />
         </shape>
     </item>
 </selector>
