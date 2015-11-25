@@ -1,7 +1,12 @@
 package com.example.ruolan.cainiaogo.http;
 
 import android.content.Context;
+import android.content.Intent;
 
+import com.example.ruolan.cainiaogo.R;
+import com.example.ruolan.cainiaogo.activity.LoginActivity;
+import com.example.ruolan.cainiaogo.application.CniaoApplication;
+import com.example.ruolan.cainiaogo.utils.ToastUtils;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
@@ -19,6 +24,8 @@ import dmax.dialog.SpotsDialog;
  */
 public abstract class SpotsCallback<T> extends  BaseCallback<T> {
 
+    public Context mContext;
+
     //显示dialog
     public void showDialog(){
         dialog.show();
@@ -33,6 +40,7 @@ public abstract class SpotsCallback<T> extends  BaseCallback<T> {
     SpotsDialog dialog ;
     //constructor
     public SpotsCallback(Context context){
+        mContext = context;
         dialog = new SpotsDialog(context);
     }
 
@@ -59,4 +67,14 @@ public abstract class SpotsCallback<T> extends  BaseCallback<T> {
     }
 
 
+    @Override
+    public void onTokenError(Response response, int code) {
+        ToastUtils.show(mContext, R.string.token_error);
+
+        //如果验证失败，重新回到登录界面
+        Intent intent = new Intent(mContext, LoginActivity.class);
+        mContext.startActivity(intent);
+
+        CniaoApplication.getInstance().clearUser();
+    }
 }

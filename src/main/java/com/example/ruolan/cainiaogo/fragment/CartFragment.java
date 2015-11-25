@@ -17,6 +17,7 @@ import com.example.ruolan.cainiaogo.activity.MainActivity;
 import com.example.ruolan.cainiaogo.adapter.CartAdapter;
 import com.example.ruolan.cainiaogo.adapter.Decoration.DividerItemDecoration;
 import com.example.ruolan.cainiaogo.bean.ShoppingCart;
+import com.example.ruolan.cainiaogo.http.OkHttpHelper;
 import com.example.ruolan.cainiaogo.utils.CartProvider;
 import com.example.ruolan.cainiaogo.weiget.CnToolbar;
 
@@ -26,6 +27,8 @@ import java.util.List;
  * Created by ruolan on 2015/11/11.
  */
 public class CartFragment extends Fragment implements View.OnClickListener {
+
+    private static final String TAG = "CartFragment";
 
     private RecyclerView mRecyclerView;
 
@@ -47,6 +50,8 @@ public class CartFragment extends Fragment implements View.OnClickListener {
 
     private CartProvider mCartProvider;
 
+    private OkHttpHelper mHttpHelper = OkHttpHelper.getInstance();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
@@ -57,6 +62,24 @@ public class CartFragment extends Fragment implements View.OnClickListener {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycle_view);
         mCheckBox = (CheckBox) view.findViewById(R.id.checkbox_all);
         mBtnOrder = (Button) view.findViewById(R.id.btn_order);
+
+        //简单的测试使用
+     /*   mBtnOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mHttpHelper.get(Contants.API.USER_DETAIL, new SpotsCallback<User>(getActivity()) {
+                    @Override
+                    public void onSuccess(Response response, User o) {
+                        Log.d(TAG,"onSuccess===" + response.code());
+                    }
+
+                    @Override
+                    public void onError(Response response, int code, Exception e) {
+                        Log.d(TAG,"onError===" + response.code());
+                    }
+                });
+            }
+        });*/
         mBtnDel = (Button) view.findViewById(R.id.btn_del);
         mBtnDel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,12 +100,14 @@ public class CartFragment extends Fragment implements View.OnClickListener {
      * 刷新购物车中的数据
      */
     public void refData() {
-        mCartAdapter.clear();
 
         //得到购物车中的所有数据
         List<ShoppingCart> carts = mCartProvider.getAll();
-        mCartAdapter.addData(carts);
-        mCartAdapter.showTotalPrice();
+        if (carts != null) {
+            mCartAdapter.clear();
+            mCartAdapter.addData(carts);
+            mCartAdapter.showTotalPrice();
+        }
     }
 
 
@@ -160,8 +185,8 @@ public class CartFragment extends Fragment implements View.OnClickListener {
             hideDelControl();
         }
 
-
     }
+
 
     private void hideDelControl() {
         mToolbar.getRightButton().setText("编辑");
