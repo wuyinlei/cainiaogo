@@ -42,20 +42,16 @@ public abstract class BaseFragment extends Fragment {
 
     public void startActivity(Intent intent, boolean isNeedLogin) {
 
-
-        if (isNeedLogin) {
-
+        if (isNeedLogin) {   //如果有登录的意图
             User user = CniaoApplication.getInstance().getUser();
-            if (user != null) {
+            if (user != null) { //说明已经登录了，就调转到目标activity
                 super.startActivity(intent);
             } else {
-
+                //如果没有登录，那么我们就跳转到登录的activity
                 CniaoApplication.getInstance().putIntent(intent);
                 Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
                 super.startActivity(loginIntent);
-
             }
-
         } else {
             super.startActivity(intent);
         }

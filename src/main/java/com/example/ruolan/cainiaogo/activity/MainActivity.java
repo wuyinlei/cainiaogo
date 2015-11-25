@@ -2,7 +2,6 @@ package com.example.ruolan.cainiaogo.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,7 +24,7 @@ import java.util.List;
 
 //FragmentTabHost的用法
 //第一步：Activity继承自FragmentActivity(AppCompatActivity这个也是继承自FragmentActivity的)
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
 
 

@@ -71,6 +71,7 @@ public class CniaoApplication extends Application {
 
 
     private  Intent intent;
+    //定义成全局变量，好取值
     public void putIntent(Intent intent){
         this.intent = intent;
     }
@@ -79,8 +80,8 @@ public class CniaoApplication extends Application {
         return this.intent;
     }
 
+    //跳转到目标的activity
     public void jumpToTargetActivity(Context context){
-
         context.startActivity(intent);
         this.intent =null;
     }

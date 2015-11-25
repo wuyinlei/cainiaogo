@@ -1,8 +1,8 @@
 package com.example.ruolan.cainiaogo.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.ruolan.cainiaogo.R;
 import com.example.ruolan.cainiaogo.activity.MainActivity;
+import com.example.ruolan.cainiaogo.activity.NewOrderActivity;
 import com.example.ruolan.cainiaogo.adapter.CartAdapter;
 import com.example.ruolan.cainiaogo.adapter.Decoration.DividerItemDecoration;
 import com.example.ruolan.cainiaogo.bean.ShoppingCart;
@@ -26,7 +27,7 @@ import java.util.List;
 /**
  * Created by ruolan on 2015/11/11.
  */
-public class CartFragment extends Fragment implements View.OnClickListener {
+public class CartFragment extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = "CartFragment";
 
@@ -52,8 +53,9 @@ public class CartFragment extends Fragment implements View.OnClickListener {
 
     private OkHttpHelper mHttpHelper = OkHttpHelper.getInstance();
 
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
 
         mCartProvider = new CartProvider(getContext());
@@ -63,7 +65,16 @@ public class CartFragment extends Fragment implements View.OnClickListener {
         mCheckBox = (CheckBox) view.findViewById(R.id.checkbox_all);
         mBtnOrder = (Button) view.findViewById(R.id.btn_order);
 
-        //简单的测试使用
+        //简单的API拦截登录测试
+        mBtnOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), NewOrderActivity.class);
+                startActivity(intent,true);
+            }
+        });
+
+        //简单的API权限测试使用
      /*   mBtnOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,6 +105,10 @@ public class CartFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
+    @Override
+    public void init() {
+
+    }
 
 
     /**

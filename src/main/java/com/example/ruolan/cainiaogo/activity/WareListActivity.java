@@ -2,7 +2,6 @@ package com.example.ruolan.cainiaogo.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,7 +26,7 @@ import java.util.List;
 /**
  * Created by ruolan on 2015/11/19.
  */
-public class WareListActivity extends AppCompatActivity implements Pager.OnPageListener<Wares>, TabLayout.OnTabSelectedListener ,View.OnClickListener{
+public class WareListActivity extends BaseActivity implements Pager.OnPageListener<Wares>, TabLayout.OnTabSelectedListener ,View.OnClickListener{
 
     private static final String TAG = "WareListActivity";
 

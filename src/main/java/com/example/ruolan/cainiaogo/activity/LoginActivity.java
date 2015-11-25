@@ -118,18 +118,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                     @Override
                     public void onSuccess(Response response, LoginRespMsg<User> userLoginRespMsg) {
-                        //CniaoApplication.getInstance().putUser(userLoginRespMsg.getData(),userLoginRespMsg.getToken());
-                        CniaoApplication aplication = CniaoApplication.getInstance();
-                        aplication.putUser(userLoginRespMsg.getData(), userLoginRespMsg.getToken());
+                        CniaoApplication application = CniaoApplication.getInstance();
+                        application.putUser(userLoginRespMsg.getData(), userLoginRespMsg.getToken());
+
+                        /**
+                         * 添加验证码验证
+                         */
                         if (v_code == null || v_code.equals("")) {
                             Toast.makeText(LoginActivity.this, "没有填写验证码", Toast.LENGTH_SHORT).show();
                         } else if (!v_code.equals(getCode)) {
                             Toast.makeText(LoginActivity.this, "验证码填写不正确", Toast.LENGTH_SHORT).show();
-                        } else if (aplication.getIntent() == null) {
+                        } else if (application.getIntent() == null) {
                             setResult(RESULT_OK);
                             LoginActivity.this.finish();
                         } else {
-                            aplication.jumpToTargetActivity(LoginActivity.this);
+                            application.jumpToTargetActivity(LoginActivity.this);
                             finish();
                         }
                     }
