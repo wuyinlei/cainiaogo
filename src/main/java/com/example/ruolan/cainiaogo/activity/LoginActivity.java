@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.ruolan.cainiaogo.Code;
+import com.example.ruolan.cainiaogo.verification.Code;
 import com.example.ruolan.cainiaogo.R;
 import com.example.ruolan.cainiaogo.application.CniaoApplication;
 import com.example.ruolan.cainiaogo.bean.User;

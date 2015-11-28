@@ -18,4 +18,5 @@
     <string name="logout">退出登录</string>
     <string name="token_error">登录失败，请重新登录</string>
     <string name="title_activity_reg">RegActivity</string>
+    <string name="next_text">下一步</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.ruolan.cainiaogo;
+package com.example.ruolan.cainiaogo.verification;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
