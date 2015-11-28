@@ -27,7 +27,6 @@ import java.util.List;
 public class MainActivity extends BaseActivity {
 
 
-
     private FragmentTabHost mTabHost;      //这个使用的是已经写好的一个FragmentTabHost
 
     private CnToolbar mToolbar;
